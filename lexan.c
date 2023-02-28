@@ -54,54 +54,6 @@ bool isKeyword(char * str) {
     return false;
 }
 
-void skip_single_line_comments(FILE * fp) {
-    char c;
-    do {
-        c = fgetc(fp);
-
-    } while (c != '\n');
-
-}
-
-void skip_comments(FILE * fp) {
-    char c;
-    printf("test2");
-    while (1) {
-        printf("test");
-        c = fgetc(fp);
-        if (c == '*') {
-            c = fgetc(fp);
-            if (c == '/')
-                break;
-            else
-                ungetc(c, fp);
-        }
-    }
-}
-
-void strip_white_and_comment(char c, FILE * fp) {
-    while (isspace(c)) {
-        c = fgetc(fp);
-    }
-
-    if (c == '/') {
-        c = fgetc(fp);
-        //printf("%c\n",c);
-        if (c == '/') {
-            skip_single_line_comments(fp);
-            c = fgetc(fp);
-            strip_white_and_comment(c, fp);
-        } else if (c == '*') {
-            skip_comments(fp);
-            c = fgetc(fp);
-            strip_white_and_comment(c, fp);
-        } else {
-            ungetc(c, fp);
-            return;
-        }
-    }
-
-}
 Token read_string(FILE * fp) {
     Token token;
     char string[MAX_STRING_LENGTH];
